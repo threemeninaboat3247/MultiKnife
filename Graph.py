@@ -4,6 +4,36 @@ Created on Fri Dec  8 18:13:32 2017
 
 @author: Jackson
 """
+def plot_with_diff(x,y,xlabel='X',ylabel='Y',title='No name'):
+    '''Calculate dy/dx and plot a graph in a notebook of Jupyter by using plotly'''
+    import plotly
+    plotly.offline.init_notebook_mode(connected=False)
+    from jupyterhack import MyFunctions
+    
+    result=MyFunctions.differentiate(x,y)
+    x_s=result['sorted_xs']
+    y_s=result['sorted_ys']
+    diff=result['df']
+    data = [
+        plotly.graph_objs.Scatter(x=x_s,y=y_s, name=ylabel),
+        plotly.graph_objs.Scatter(x=x_s, y=diff, name="diff", yaxis="y2")
+    ]
+    layout = plotly.graph_objs.Layout(
+        title=title,
+        xaxis={"title":xlabel},
+        yaxis={"title":ylabel},
+        yaxis2={"title":'diff', "overlaying":"y", "side":"right"},
+    )
+    fig = plotly.graph_objs.Figure(data=data, layout=layout)
+    plotly.offline.iplot(fig)
+    
+def matplot(x,y,xlabel='X',ylabel='Y',title='No name'):
+    '''Plot a graph by matplotlib.pyplot'''
+    import matplotlib.pyplot as plt
+    plt.plot(x,y)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
 
 def graph_set(g,xlabel,ylabel,title=None):
     '''
